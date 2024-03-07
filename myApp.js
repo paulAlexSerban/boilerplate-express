@@ -11,8 +11,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/json', (req, res) => {
-  const json = JSON.stringify({ message: 'Hello json' });
-  res.send(json);
+  res.json({
+    message: "Hello json"
+  });
 });
 
 module.exports = app;
