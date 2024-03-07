@@ -10,4 +10,9 @@ app.get('/', (req, res) => {
     res.sendFile(indexFile);
 });
 
+app.get('/json', (req, res) => {
+  const json = JSON.stringify({ message: 'Hello json' });
+  res.send(json);
+});
+
 module.exports = app;
