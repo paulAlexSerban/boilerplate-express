@@ -2,40 +2,8 @@ let express = require('express');
 let app = express();
 
 app.get('/', (req, res) => {
-  res.send('Hello Express');
+    const indexFile = __dirname + '/views/index.html';
+    res.sendFile(indexFile);
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- module.exports = app;
+module.exports = app;
