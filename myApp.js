@@ -69,23 +69,44 @@ const getNameHandler = (req, res) => {
     res.json({ name: `${first} ${last}` });
 };
 
-app.post('/name', bodyParser.urlencoded({ extended: false }), getNameHandler);
+const postNameHandler = (req, res) => {
+    const { first, last } = req.body;
+    res.json({ name: `${first} ${last}` });
+};
+app.route('/name', bodyParser.urlencoded({ extended: false }))
+    .get(getNameHandler)
+    .post(postNameHandler);
 
 /**
- * body-parser has already been installed and is in your project's package.json file. 
- * require it at the top of the myApp.js file and store it in a variable named bodyParser. 
- * The middleware to handle URL encoded data is returned by bodyParser.urlencoded({extended: false}). 
- * Pass the function returned by the previous method call to app.use(). 
+ * body-parser has already been installed and is in your project's package.json file.
+ * require it at the top of the myApp.js file and store it in a variable named bodyParser.
+ * The middleware to handle URL encoded data is returned by bodyParser.urlencoded({extended: false}).
+ * Pass the function returned by the previous method call to app.use().
  * As usual, the middleware must be mounted before all the routes that depend on it.
- * 
- * Note: extended is a configuration option that tells body-parser which parsing needs to be used. 
- * When extended=false it uses the classic encoding querystring library. 
+ *
+ * Note: extended is a configuration option that tells body-parser which parsing needs to be used.
+ * When extended=false it uses the classic encoding querystring library.
  * When extended=true it uses qs library for parsing.
- * 
- * When using extended=false, values can be only strings or arrays. 
- * The object returned when using querystring does not prototypically inherit from the default JavaScript Object, 
- * which means functions like hasOwnProperty, toString will not be available. 
+ *
+ * When using extended=false, values can be only strings or arrays.
+ * The object returned when using querystring does not prototypically inherit from the default JavaScript Object,
+ * which means functions like hasOwnProperty, toString will not be available.
  * The extended version allows more data flexibility, but it is outmatched by JSON.
+ */
+
+/**
+ * Mount a POST handler at the path /name.
+ * It’s the same path as before. We have prepared a form in the html frontpage.
+ * It will submit the same data of exercise 10 (Query string).
+ * If the body-parser is configured correctly, you should find the parameters in the object req.body.
+ * Have a look at the usual library example:
+ *
+ * route: POST '/library'
+ * urlencoded_body: userId=546&bookId=6754
+ * req.body: {userId: '546', bookId: '6754'}
+ *
+ * Respond with the same JSON object as before: {name: 'firstname lastname'}.
+ * Test if your endpoint works using the html form we provided in the app frontpage.
  */
 
 /**
