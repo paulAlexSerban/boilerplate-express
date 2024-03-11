@@ -12,8 +12,19 @@ app.use(requestLogger);
 
 app.use('/public', staticMiddleware);
 
+const getNow = (req, res, next) => {
+    req.time = new Date().toString();
+    next();
+};
+
+const getNowHandler = (req, res) => {
+    res.json({ time: req.time });
+};
+
+app.get('/now', getNow, getNowHandler);
+
 app.get('/json', (req, res) => {
-    res.json({ "message": "Hello json" });
+    res.json({ message: 'Hello json' });
 });
 
 app.get('/', (req, res) => {
