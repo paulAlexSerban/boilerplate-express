@@ -3,6 +3,13 @@ let app = express();
 
 const staticMiddleware = express.static(__dirname + '/public');
 
+const requestLogger = (req, res, next) => {
+    console.log(`${req.method} ${req.path} - ${req.ip}`);
+    next();
+};
+
+app.use(requestLogger);
+
 app.use('/public', staticMiddleware);
 
 app.get('/json', (req, res) => {
