@@ -23,19 +23,58 @@ const getNowHandler = (req, res) => {
     res.json({ time: req.time });
 };
 
-// simple time response with middleware to get the current time
+/**
+ * In the route app.get('/now', ...) chain a middleware function and the final handler.
+ * In the middleware function you should add the current time to the request object in the req.time key.
+ * You can use new Date().toString(). In the handler, respond with a JSON object, taking the structure {time: req.time}.
+ *
+ * Note: The test will not pass if you don’t chain the middleware.
+ * If you mount the function somewhere else, the test will fail, even if the output result is correct.
+ */
 app.get('/now', getNow, getNowHandler);
 
-// simple json response
+/**
+ * Serve the object {"message": "Hello json"} as a response, in JSON format, to GET requests to the /json route.
+ * Then point your browser to your-app-url/json, you should see the message on the screen.
+ */
 app.get('/json', (req, res) => {
     res.json({ message: 'Hello json' });
 });
-// simple echo server
+
+/**
+ * Build an echo server, mounted at the route GET /:word/echo.
+ * Respond with a JSON object, taking the structure {echo: word}.
+ * You can find the word to be repeated at req.params.word.
+ * You can test your route from your browser's address bar, visiting some matching routes, e.g. your-app-rootpath/freecodecamp/echo.
+ */
 app.get('/:word/echo', (req, res) => {
     res.json({ echo: req.params.word });
 });
 
-// simple index.html response
+/**
+ * Build an API endpoint, mounted at GET /name. Respond with a JSON document, taking the structure { name: 'firstname lastname'}.
+ * The first and last name parameters should be encoded in a query string e.g. ?first=firstname&last=lastname.
+ *
+ * Note: In the following exercise you are going to receive data from a POST request, at the same /name route path.
+ * If you want, you can use the method app.route(path).get(handler).post(handler).
+ * This syntax allows you to chain different verb handlers on the same path route. You can save a bit of typing, and have cleaner code.
+ */
+
+const getNameHandler = (req, res) => {
+    const { first, last } = req.query;
+    res.json({ name: `${first} ${last}` });
+};
+
+app.route('/name').get(getNameHandler)
+
+/**
+ * Send the /views/index.html file as a response to GET requests to the / path.
+ * If you view your live app, you should see a big HTML heading (and a form that we will use later…), with no style applied.
+ *
+ * Note: You can edit the solution of the previous challenge or create a new one.
+ * If you create a new solution, keep in mind that Express evaluates routes from top to bottom, and executes the handler for the first match.
+ * You have to comment out the preceding solution, or the server will keep responding with a string.
+ */
 app.get('/', (req, res) => {
     const indexFile = __dirname + '/views/index.html';
     res.sendFile(indexFile);
